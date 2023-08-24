@@ -9,7 +9,6 @@ config/odoo.conf
 config/*.odoo.conf
 .env
 .venv
-docker-compose.yaml
 xml_state.py
 nginx/nginx.conf
 filename.txt
