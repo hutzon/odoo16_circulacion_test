@@ -1,0 +1,88 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="manage.task_list">
+      <field name="name">Tasks</field>
+      <field name="model">manage.task</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="manage.task_form">
+      <field name="name">Tasks Form</field>
+      <field name="model">manage.task</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="name" />
+            <field name="description" />
+            <field name="creation_date" />
+            <field name="start_date" />
+            <field name="end_date" />
+            <field name="is_paused" />
+            <field name="sprint" />
+          </group>
+
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="manage.action_task_window">
+      <field name="name">Tasks</field>
+      <field name="res_model">manage.task</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="manage.action_sprint_window">
+      <field name="name">Sprint</field>
+      <field name="res_model">manage.sprint</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="manage.action_server">
+      <field name="name">manage server</field>
+      <field name="model_id" ref="model_manage_manage"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+
+    <menuitem name="Manage" id="manage.menu_root" />
+
+    <!-- menu categories -->
+
+    <menuitem name="Management" id="manage.menu_1" parent="manage.menu_root" />
+
+    <!-- <menuitem name="Menu 2" id="manage.menu_2" parent="manage.menu_root"/> -->
+
+    <!-- actions -->
+
+    <menuitem name="Tasks" id="manage.menu_1_task_list" parent="manage.menu_1"
+      action="manage.action_task_window" />
+
+    <menuitem name="Sprint" id="manage.menu_1_sprint_list" parent="manage.menu_1"
+      action="manage.action_sprint_window" />
+
+    <!-- <menuitem name="Server to list" id="manage" parent="manage.menu_2"
+              action="manage.action_server"/> -->
+
+  </data>
+</odoo>

@@ -1,0 +1,18 @@
+<odoo>
+    <template id="in-card-product">
+        <div class="col-sm-3">
+            <div class="card" style="width: 18rem;">
+                <img t-attf-src="/web/image?model=product.template&amp;id=#{product.id}&amp;field=image_128" class="card-img-top" alt="..."/>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <t t-esc="product.name"/>
+                    </h5>
+                    <p class="card-text">
+                        <t t-esc="product.description"/>
+                    </p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

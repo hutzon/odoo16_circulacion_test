@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_circulacion_cliente,circulacion.cliente,model_circulacion_cliente,base.group_user,1,1,1,1
+access_circulacion_sector,circulacion.sector,model_circulacion_sector,base.group_user,1,1,1,1
+access_circulacion_country,circulacion.country,model_circulacion_country,base.group_user,1,1,1,1
+access_circulacion_state,circulacion.state,model_circulacion_state,base.group_user,1,1,1,1
+access_circulacion_city,circulacion.city,model_circulacion_city,base.group_user,1,1,1,1
+access_circulacion_ruta,circulacion.ruta,model_circulacion_ruta,base.group_user,1,1,1,1
+access_circulacion_empresa,circulacion.empresa,model_circulacion_empresa,base.group_user,1,1,1,1
+access_circulacion_publicacion,circulacion.publicacion,model_circulacion_publicacion,base.group_user,1,1,1,1
+access_circulacion_tipopublicacion,circulacion.tipopublicacion,model_circulacion_tipopublicacion,base.group_user,1,1,1,1
+access_circulacion_tipoportada,circulacion.tipoportada,model_circulacion_tipoportada,base.group_user,1,1,1,1
+access_circulacion_asesor,circulacion.asesor,model_circulacion_asesor,base.group_user,1,1,1,1
+

@@ -1,0 +1,15 @@
+<odoo>
+    <template id="mi_primera_pagina" name="Mi Web">
+        <t t-call="website.layout">
+            <h1>Esta es mi primera web</h1>
+
+            <div class="container">
+                <div class="row">
+                    <t t-foreach="products" t-as="product">
+                        <t t-call="page_example.in-card-product"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

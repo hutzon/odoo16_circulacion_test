@@ -1,0 +1,171 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="circulacion.cliente_list">
+      <field name="name">circulacion list</field>
+      <field name="model">circulacion.cliente</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+          <field name="apellido" />
+          <field name="telefono" />
+          <field name="correo" />
+          <field name="empresa" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="circulacion.cliente_form">
+      <field name="name">Cliente Form</field>
+      <field name="model">circulacion.cliente</field>
+      <field name="arch" type="xml">
+        <form string="Circulacion">
+          <group>
+            <group>
+              <field name="fotografia" widget="image" options="{'size': (75, 75)}" />
+              <field name="tipo_persona" />
+              <field name="name" />
+              <field name="apellido" />
+              <field name="tipo_documento" />
+              <field name="no_documento" />
+              <field name="nit" />
+              <field name="fecha_nacimiento" />
+              <field name="talla" />
+              <field name="telefono" />
+              <field name="correo" />
+            </group>
+            <group>
+              <field name="empresa" />
+              <field name="nombre_facturacion" />
+              <field name="dir_facturacion" />
+              <field name="canal_facturacion" />
+              <field name="canal_distribucion" />
+              <field name="precio_unidad" placeholder="1.66" />
+              <field name="dias_validos_devolucion" />
+              <field name="cantidad_pedido" />
+              <field name="cantidad_flete" />
+              <field name="cantidad_promocion" />
+              <field name="estado" />
+              <field name="facturar_pedidos" />
+            </group>
+          </group>
+        </form>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="circulacion.sector_form">
+      <field name="name">Sector Form</field>
+      <field name="model">circulacion.sector</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <separator string="Datos Generales" class="text-center fw-bold fs-1" />
+            <group>
+              <field name="name" />
+              <field name="calle_avenida" />
+              <field name="no_casa" />
+              <field name="no_apartamento" />
+              <field name="zona" />
+              <field name="colonia_barrio_aldea" />
+              <field name="country_id" />
+              <field name="state_id" domain="[('country_id','=',country_id)]" />
+              <field name="city_id" domain="[('state_id','=',state_id)]" />
+              <field name="ruta" domain="[('city_id','=',city_id)]" />
+              <field name="orden_ruta" />
+              <field name="tipo_direccion" />
+
+
+            </group>
+            <group>
+              <field name="cliente" />
+              <field name="cliente_info" readonly="1" />
+              <field name="empresa_id" />
+              <field name="publicacion_id" />
+              <field name="tipo_publicacion_id" domain="[('publicacion_id','=',publicacion_id)]" />
+              <field name="tipo_portada_id" domain="[('publicacion_id','=',publicacion_id)]" />
+              <field name="asesor" />
+              <field name="no_voceadores" />
+              <field name="anotaciones" />
+
+            </group>
+          </group>
+        </form>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="circulacion.asesor_form">
+      <field name="name">Asesor Form</field>
+      <field name="model">circulacion.asesor</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="name" />
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="circulacion.action_cliente_window">
+      <field name="name">Clientes</field>
+      <field name="res_model">circulacion.cliente</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="circulacion.action_sector_window">
+      <field name="name">Sectores</field>
+      <field name="res_model">circulacion.sector</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="circulacion.action_asesor_window">
+      <field name="name">Asesores</field>
+      <field name="res_model">circulacion.asesor</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="circulacion.action_server">
+      <field name="name">circulacion server</field>
+      <field name="model_id" ref="model_circulacion_circulacion"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+
+    <menuitem name="Circulacion" id="circulacion.menu_root" />
+
+    <!-- menu categories -->
+
+    <menuitem name="Circulacion" id="circulacion.menu_1" parent="circulacion.menu_root" />
+    <!-- <menuitem name="Menu 2" id="circulacion.menu_2" parent="circulacion.menu_root"/> -->
+
+    <!-- actions -->
+
+    <menuitem name="Clientes" id="circulacion.menu_1_cliente_list" parent="circulacion.menu_1"
+      action="circulacion.action_cliente_window" />
+
+    <menuitem name="Sector" id="circulacion.menu_1_sector_list" parent="circulacion.menu_1"
+      action="circulacion.action_sector_window" />
+
+    <menuitem name="Asesor" id="circulacion.menu_1_asesor_list" parent="circulacion.menu_1"
+      action="circulacion.action_asesor_window" />
+    <!-- <menuitem name="Server to list" id="circulacion" parent="circulacion.menu_2"
+              action="circulacion.action_server"/> -->
+
+  </data>
+</odoo>
