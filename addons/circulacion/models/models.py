@@ -227,34 +227,54 @@ class sector(models.Model):
     _name = "circulacion.sector"
     _description = "circulacion.sector"
 
-    name = fields.Char(string="Nombre del Sector", required=True)
-    calle_avenida = fields.Char(string="Calle o Avenida")
-    no_casa = fields.Char(string="No. de Casa")
-    no_apartamento = fields.Char(string="No. de Apartamento")
-    zona = fields.Char(string="Zona")
-    colonia_barrio_aldea = fields.Char(string="Colonia, Barrio o Aldea")
+    name = fields.Char(string="Nombre del Sector*", required=True, default="Dirección")
+    calle_avenida = fields.Char(string="Calle o Avenida*", required=True, default="N/A")
+    no_casa = fields.Char(string="No. de Casa*", required=True, default="N/A")
+    no_apartamento = fields.Char(
+        string="No. de Apartamento*", required=True, default="N/A"
+    )
+    zona = fields.Char(string="Zona*", required=True, default="N/A")
+    colonia_barrio_aldea = fields.Char(
+        string="Colonia, Barrio o Aldea*", required=True, default="N/A"
+    )
     cliente = fields.Many2one("circulacion.cliente")
     cliente_info = fields.Char(
         string="Información del Cliente", compute="_compute_cliente_info"
     )
 
-    orden_ruta = fields.Integer(default=1, string="Orden de la Ruta")
+    orden_ruta = fields.Integer(default=1, string="Orden de la Ruta*", required=True)
     tipo_direccion = fields.Selection(
         [
             ("entrega", "Entrega"),
             ("facturacion", "Facturación"),
             ("ambas", "Ambas"),
         ],
-        string="Tipo de Direccion",
+        string="Tipo de Direccion*",
         default="ambas",
         required=True,
     )
 
+    # Configuracion
+    tasa_devolucion = fields.Integer(string="Tasa de Devolución *", required=True)
+    dias_valido_devolucion = fields.Integer(
+        string="Días Válidos para Devolución *", required=True
+    )
+    cantidad_pedido_ordinario = fields.Integer(
+        string="Cantidad de Pedido Ordinario *", required=True
+    )
+    cantidad_flete = fields.Integer(string="Cantidad de Flete *", required=True)
+    cantidad_promocion = fields.Integer(string="Cantidad de Promoción *", required=True)
+    supervisor = fields.Many2one("circulacion.supervisor")
+    transportista = fields.Many2one("circulacion.transportista")
+    cobrador = fields.Many2one("circulacion.cobrador", required=True)
+
     # Campos para Paises
-    country_id = fields.Many2one("circulacion.country", string="Pais")
-    state_id = fields.Many2one("circulacion.state", string="Departamento")
-    city_id = fields.Many2one("circulacion.city", string="Municipio")
-    ruta = fields.Many2one("circulacion.ruta", string="Ruta")
+    country_id = fields.Many2one("circulacion.country", string="Pais*", required=True)
+    state_id = fields.Many2one(
+        "circulacion.state", string="Departamento*", required=True
+    )
+    city_id = fields.Many2one("circulacion.city", string="Municipio*", required=True)
+    ruta = fields.Many2one("circulacion.ruta", string="Ruta*", required=True)
 
     # publicacion
     empresa_id = fields.Many2one("circulacion.empresa", string="Empresa")
@@ -276,6 +296,8 @@ class sector(models.Model):
                 record.cliente_info = "{} {} (ID: {})".format(
                     record.cliente.name, record.cliente.apellido, record.cliente.id
                 )
+            else:
+                record.cliente_info = ""
 
     @api.onchange("country_id")
     def _onchange_country_id(self):
@@ -346,5 +368,26 @@ class sector(models.Model):
 class asesor(models.Model):
     _name = "circulacion.asesor"
     _description = "circulacion.asesor"
+
+    name = fields.Char(string="Nombre")
+
+
+class supervisor(models.Model):
+    _name = "circulacion.supervisor"
+    _description = "circulacion.supervisor"
+
+    name = fields.Char(string="Nombre")
+
+
+class transportista(models.Model):
+    _name = "circulacion.transportista"
+    _description = "circulacion.transportista"
+
+    name = fields.Char(string="Nombre")
+
+
+class cobrador(models.Model):
+    _name = "circulacion.cobrador"
+    _description = "circulacion.cobrador"
 
     name = fields.Char(string="Nombre")

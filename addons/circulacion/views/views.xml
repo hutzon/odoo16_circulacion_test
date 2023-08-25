@@ -21,35 +21,39 @@
       <field name="model">circulacion.cliente</field>
       <field name="arch" type="xml">
         <form string="Circulacion">
-          <group>
+          <div class="modal-content"
+            style="box-shadow: 0px 0px 10px 0px #888888; opacity: 0.7; padding: 20px;">
             <group>
-              <field name="fotografia" widget="image" options="{'size': (75, 75)}" />
-              <field name="tipo_persona" />
-              <field name="name" />
-              <field name="apellido" />
-              <field name="tipo_documento" />
-              <field name="no_documento" />
-              <field name="nit" />
-              <field name="fecha_nacimiento" />
-              <field name="talla" />
-              <field name="telefono" />
-              <field name="correo" />
+              <group>
+                <field name="fotografia" widget="image" options="{'size': (75, 75)}" />
+                <field name="tipo_persona" />
+                <field name="name" />
+                <field name="apellido" />
+                <field name="tipo_documento" />
+                <field name="no_documento" />
+                <field name="nit" />
+                <field name="fecha_nacimiento" />
+                <field name="talla" />
+                <field name="telefono" />
+                <field name="correo" />
+              </group>
+              <group>
+                <field name="empresa" />
+                <field name="nombre_facturacion" />
+                <field name="dir_facturacion" />
+                <field name="canal_facturacion" />
+                <field name="canal_distribucion" />
+                <field name="precio_unidad" placeholder="1.66" />
+                <field name="dias_validos_devolucion" />
+                <field name="cantidad_pedido" />
+                <field name="cantidad_flete" />
+                <field name="cantidad_promocion" />
+                <field name="estado" />
+                <field name="facturar_pedidos" />
+              </group>
             </group>
-            <group>
-              <field name="empresa" />
-              <field name="nombre_facturacion" />
-              <field name="dir_facturacion" />
-              <field name="canal_facturacion" />
-              <field name="canal_distribucion" />
-              <field name="precio_unidad" placeholder="1.66" />
-              <field name="dias_validos_devolucion" />
-              <field name="cantidad_pedido" />
-              <field name="cantidad_flete" />
-              <field name="cantidad_promocion" />
-              <field name="estado" />
-              <field name="facturar_pedidos" />
-            </group>
-          </group>
+          </div>
+
         </form>
       </field>
     </record>
@@ -60,53 +64,141 @@
       <field name="model">circulacion.sector</field>
       <field name="arch" type="xml">
         <form>
-          <group>
-            <separator string="Datos Generales" class="text-center fw-bold fs-1" />
-            <group>
-              <field name="name" />
-              <field name="calle_avenida" />
-              <field name="no_casa" />
-              <field name="no_apartamento" />
-              <field name="zona" />
-              <field name="colonia_barrio_aldea" />
-              <field name="country_id" />
-              <field name="state_id" domain="[('country_id','=',country_id)]" />
-              <field name="city_id" domain="[('state_id','=',state_id)]" />
-              <field name="ruta" domain="[('city_id','=',city_id)]" />
-              <field name="orden_ruta" />
-              <field name="tipo_direccion" />
+          <notebook>
+            <page string="Información General">
+              <div class="modal-content"
+                style="box-shadow: 0px 0px 10px 0px #888888; opacity: 0.7; padding: 20px;">
+                <group>
+                  <separator string="Datos Generales" class="text-center fw-bold fs-1" />
+                  <group>
+                    <field name="name" />
+                    <field name="calle_avenida" />
+                    <field name="no_casa" />
+                    <field name="no_apartamento" />
+                    <field name="zona" />
+                    <field name="colonia_barrio_aldea" />
+                    <field name="country_id" placeholder="Por favor seleccione" />
+                    <field name="state_id" domain="[('country_id','=',country_id)]"
+                      placeholder="Por favor seleccione" />
+                    <field name="city_id" domain="[('state_id','=',state_id)]"
+                      placeholder="Por favor seleccione" />
+                    <field name="ruta" domain="[('city_id','=',city_id)]"
+                      placeholder="Por favor seleccione" />
+                    <field name="orden_ruta" />
+                    <field name="tipo_direccion" />
 
 
-            </group>
-            <group>
-              <field name="cliente" />
-              <field name="cliente_info" readonly="1" />
-              <field name="empresa_id" />
-              <field name="publicacion_id" />
-              <field name="tipo_publicacion_id" domain="[('publicacion_id','=',publicacion_id)]" />
-              <field name="tipo_portada_id" domain="[('publicacion_id','=',publicacion_id)]" />
-              <field name="asesor" />
-              <field name="no_voceadores" />
-              <field name="anotaciones" />
+                  </group>
+                  <group>
+                    <field name="cliente" placeholder="Por favor seleccione" />
+                    <field name="cliente_info" readonly="1" />
+                    <field name="empresa_id" placeholder="Por favor seleccione" />
+                    <field name="publicacion_id" placeholder="Por favor seleccione" />
+                    <field name="tipo_publicacion_id"
+                      domain="[('publicacion_id','=',publicacion_id)]"
+                      placeholder="Por favor seleccione" />
+                    <field name="tipo_portada_id" domain="[('publicacion_id','=',publicacion_id)]"
+                      placeholder="Por favor seleccione" />
+                    <field name="asesor" placeholder="Por favor seleccione" />
+                    <field name="no_voceadores" />
+                    <field name="anotaciones" />
 
-            </group>
-          </group>
+                  </group>
+                </group>
+              </div>
+            </page>
+            <page string="Configuración">
+
+              <div class="modal-content"
+                style="box-shadow: 0px 0px 10px 0px #888888; opacity: 0.7; padding: 20px;">
+                <separator string="Datos Configuracion" class="text-center fw-bold fs-1" />
+                <group>
+                  <group>
+                    <field name="tasa_devolucion" />
+                    <field name="dias_valido_devolucion" />
+                    <field name="cantidad_pedido_ordinario" />
+                    <field name="cantidad_flete" />
+                  </group>
+                  <group>
+                    <field name="cantidad_promocion" />
+                    <field name="supervisor" />
+                    <field name="transportista" />
+                    <field name="cobrador" />
+                  </group>
+                </group>
+
+              </div>
+            </page>
+          </notebook>
+
         </form>
       </field>
     </record>
 
-
+    <!-- Asesor -->
     <record model="ir.ui.view" id="circulacion.asesor_form">
       <field name="name">Asesor Form</field>
       <field name="model">circulacion.asesor</field>
       <field name="arch" type="xml">
         <form>
-          <group>
-            <field name="name" />
-          </group>
+          <div class="modal-content"
+            style="box-shadow: 0px 0px 10px 0px #888888; opacity: 0.7; padding: 20px;">
+            <group>
+              <field name="name" />
+            </group>
+          </div>
         </form>
       </field>
     </record>
+
+    <!-- Supervisor -->
+    <record model="ir.ui.view" id="circulacion.supervisor_form">
+      <field name="name">Supervisor Form</field>
+      <field name="model">circulacion.supervisor</field>
+      <field name="arch" type="xml">
+        <form string="Supervisor">
+          <div class="modal-content"
+            style="box-shadow: 0px 0px 10px 0px #888888; opacity: 0.7; padding: 20px;">
+            <group>
+              <field name="name" />
+            </group>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <!-- Transportista -->
+    <record model="ir.ui.view" id="circulacion.transportista_form">
+      <field name="name">Transportista Form</field>
+      <field name="model">circulacion.transportista</field>
+      <field name="arch" type="xml">
+        <form string="Transportista">
+          <div class="modal-content"
+            style="box-shadow: 0px 0px 10px 0px #888888; opacity: 0.7; padding: 20px;">
+            <group>
+              <field name="name" />
+            </group>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <!-- Transportista -->
+    <record model="ir.ui.view" id="circulacion.cobrador_form">
+      <field name="name">Cobrador Form</field>
+      <field name="model">circulacion.cobrador</field>
+      <field name="arch" type="xml">
+        <form string="Cobrador">
+          <div class="modal-content"
+            style="box-shadow: 0px 0px 10px 0px #888888; opacity: 0.7; padding: 20px;">
+            <group>
+              <field name="name" />
+            </group>
+          </div>
+        </form>
+      </field>
+    </record>
+
 
     <!-- actions opening views on models -->
 
@@ -126,6 +218,24 @@
     <record model="ir.actions.act_window" id="circulacion.action_asesor_window">
       <field name="name">Asesores</field>
       <field name="res_model">circulacion.asesor</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="circulacion.action_supervisor_window">
+      <field name="name">Supervisores</field>
+      <field name="res_model">circulacion.supervisor</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="circulacion.action_transportista_window">
+      <field name="name">Transportista</field>
+      <field name="res_model">circulacion.transportista</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="circulacion.action_cobrador_window">
+      <field name="name">Cobrador</field>
+      <field name="res_model">circulacion.cobrador</field>
       <field name="view_mode">tree,form</field>
     </record>
 
@@ -164,8 +274,22 @@
 
     <menuitem name="Asesor" id="circulacion.menu_1_asesor_list" parent="circulacion.menu_1"
       action="circulacion.action_asesor_window" />
+
+
+    <menuitem name="Supervisor" id="circulacion.menu_1_supervisor_list"
+      parent="circulacion.menu_1"
+      action="circulacion.action_supervisor_window" />
+
+    <menuitem name="Transportista" id="circulacion.menu_1_transportista_list"
+      parent="circulacion.menu_1"
+      action="circulacion.action_transportista_window" />
+
+    <menuitem name="Cobrador" id="circulacion.menu_1_cobrador_list"
+      parent="circulacion.menu_1"
+      action="circulacion.action_cobrador_window" />
     <!-- <menuitem name="Server to list" id="circulacion" parent="circulacion.menu_2"
               action="circulacion.action_server"/> -->
+
 
   </data>
 </odoo>

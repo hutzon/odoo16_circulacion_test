@@ -10,4 +10,7 @@ access_circulacion_publicacion,circulacion.publicacion,model_circulacion_publica
 access_circulacion_tipopublicacion,circulacion.tipopublicacion,model_circulacion_tipopublicacion,base.group_user,1,1,1,1
 access_circulacion_tipoportada,circulacion.tipoportada,model_circulacion_tipoportada,base.group_user,1,1,1,1
 access_circulacion_asesor,circulacion.asesor,model_circulacion_asesor,base.group_user,1,1,1,1
+access_circulacion_supervisor,circulacion.supervisor,model_circulacion_supervisor,base.group_user,1,1,1,1
+access_circulacion_transportista,circulacion.transportista,model_circulacion_transportista,base.group_user,1,1,1,1
+access_circulacion_cobrador,circulacion.cobrador,model_circulacion_cobrador,base.group_user,1,1,1,1
 
