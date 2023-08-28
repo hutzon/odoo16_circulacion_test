@@ -7,27 +7,51 @@ class cliente(models.Model):
     _name = "circulacion.cliente"
     _description = "circulacion.cliente"
 
-    name = fields.Char(string="Nombre", required=True)
+    name = fields.Char(string="Nombre(s)*", required=True)
     fotografia = fields.Binary(string="Fotografía")
-    apellido = fields.Char(string="Apellido(s)")
+    apellido = fields.Char(string="Apellido(s)*", required=True)
     empresa = fields.Char(string="Nombre de Compañia")
-    nit = fields.Char(string="NIT")
+    nit = fields.Char(string="NIT", default="C/F")
     fecha_nacimiento = fields.Date(string="Fecha de Nacimiento")
     no_documento = fields.Char()
     talla = fields.Char()
-    nombre_facturacion = fields.Char(string="Nombre de Facturación")
-    dir_facturacion = fields.Char(string="Dirección de Facturación")
-    telefono = fields.Char(string="Teléfonos")
+    nombre_facturacion = fields.Char(string="Nombre de Facturación*", required=True)
+    dir_facturacion = fields.Char(string="Dirección de Facturación*", required=True)
+    telefono = fields.Char(string="Teléfonos*", required=True)
     correo = fields.Char(string="Correo Electrónico")
+    # precio_unidad = fields.Float(
+    #     default=1.66, readonly=True, digits=(16, 2), string="Precio por Unidad"
+    # )
+
     precio_unidad = fields.Float(
-        default=1.66, readonly=True, digits=(16, 2), string="Precio por Unidad"
+        compute="_compute_precio_dias",
+        readonly=True,
+        store=True,
+        digits=(16, 2),
+        string="Precio por Unidad*",
     )
+
+    # dias_validos_devolucion = fields.Integer(
+    #     default=1, string="Días Válidos para Devolución"
+    # )
+
     dias_validos_devolucion = fields.Integer(
-        default=1, string="Días Válidos para Devolución"
+        compute="_compute_precio_dias",
+        inverse="_inverse_dias_validos_devolucion",
+        store=True,
+        string="Días Válidos para Devolución*",
+        required=True,
     )
-    cantidad_pedido = fields.Integer(default=0, string="Cantidad de Pedido Ordinario")
-    cantidad_flete = fields.Integer(default=0, string="Cantidad de Flete")
-    cantidad_promocion = fields.Integer(default=0, string="Cantidad de Promoción")
+
+    cantidad_pedido = fields.Integer(
+        default=0, string="Cantidad de Pedido Ordinario*", required=True
+    )
+    cantidad_flete = fields.Integer(
+        default=0, string="Cantidad de Flete*", required=True
+    )
+    cantidad_promocion = fields.Integer(
+        default=0, string="Cantidad de Promoción*", required=True
+    )
     tipo_documento = fields.Selection(
         [
             ("cedula", "Cedula"),
@@ -38,6 +62,58 @@ class cliente(models.Model):
         string="Tipo de Documento",
         default="cedula",
         required=True,
+    )
+    tipo_persona = fields.Selection(
+        [
+            ("individual", "Individual"),
+            ("juridica", "Jurídica"),
+        ],
+        string="Tipo de Persona*",
+        default="individual",
+        required=True,
+    )
+
+    talla = fields.Selection(
+        [
+            ("s", "S"),
+            ("m", "M"),
+            ("l", "L"),
+            ("xl", "XL"),
+            ("xxl", "XXL"),
+            ("xxxl", "XXXL"),
+        ],
+        string="Talla*",
+        default="s",
+        required=True,
+    )
+
+    canal_facturacion = fields.Selection(
+        [
+            ("sectores_metropolitanos", "Sectores Metropolitanos"),
+            ("sectores_departamentales", "Sectores Departamentales"),
+            ("tiendas_barrio", "Tiendas de Barrio"),
+            ("tiendas_conveniencia", "Tiendas de Conveniencia"),
+            ("suscripciones", "Suscripciones"),
+            ("suscripciones_cortesia", "Suscripciones de Cortesia"),
+            ("agencias_publicidad", "Agencias de Publicidad"),
+            ("oficinas_zona_12", "Oficinas Zona 12"),
+            ("envios_usa", "Envios a USA"),
+            ("otros", "Otros"),
+        ],
+        string="Canales de Facturación*",
+        default="sectores_metropolitanos",
+        required=True,
+    )
+
+    tipo_documento = fields.Selection(
+        [
+            ("cedula", "Cedula"),
+            ("dpi", "DPI"),
+            ("pasaporte", "Pasaporte"),
+            ("otros", "Otros"),
+        ],
+        string="Tipo de Documento",
+        default="cedula",
     )
     tipo_persona = fields.Selection(
         [
@@ -60,78 +136,6 @@ class cliente(models.Model):
         ],
         string="Talla",
         default="s",
-        required=True,
-    )
-
-    canal_facturacion = fields.Selection(
-        [
-            ("sectores_metropolitanos", "Sectores Metropolitanos"),
-            ("sectores_departamentales", "Sectores Departamentales"),
-            ("tiendas_barrio", "Tiendas de Barrio"),
-            ("tiendas_conveniencia", "Tiendas de Conveniencia"),
-            ("suscripciones", "Suscripciones"),
-            ("suscripciones_cortesia", "Suscripciones de Cortesia"),
-            ("agencias_publicidad", "Agencias de Publicidad"),
-            ("oficinas_zona_12", "Oficinas Zona 12"),
-            ("envios_usa", "Envios a USA"),
-            ("otros", "Otros"),
-        ],
-        string="Canales de Facturación",
-        default="sectores_metropolitanos",
-        required=True,
-    )
-
-    tipo_documento = fields.Selection(
-        [
-            ("cedula", "Cedula"),
-            ("dpi", "DPI"),
-            ("pasaporte", "Pasaporte"),
-            ("otros", "Otros"),
-        ],
-        string="Tipo de Documento",
-        default="cedula",
-        required=True,
-    )
-    tipo_persona = fields.Selection(
-        [
-            ("individual", "Individual"),
-            ("juridica", "Jurídica"),
-        ],
-        string="Tipo de Persona",
-        default="individual",
-        required=True,
-    )
-
-    talla = fields.Selection(
-        [
-            ("s", "S"),
-            ("m", "M"),
-            ("l", "L"),
-            ("xl", "XL"),
-            ("xxl", "XXL"),
-            ("xxxl", "XXXL"),
-        ],
-        string="Talla",
-        default="s",
-        required=True,
-    )
-
-    canal_facturacion = fields.Selection(
-        [
-            ("sectores_metropolitanos", "Sectores Metropolitanos"),
-            ("sectores_departamentales", "Sectores Departamentales"),
-            ("tiendas_barrio", "Tiendas de Barrio"),
-            ("tiendas_conveniencia", "Tiendas de Conveniencia"),
-            ("suscripciones", "Suscripciones"),
-            ("suscripciones_cortesia", "Suscripciones de Cortesia"),
-            ("agencias_publicidad", "Agencias de Publicidad"),
-            ("oficinas_zona_12", "Oficinas Zona 12"),
-            ("envios_usa", "Envios a USA"),
-            ("otros", "Otros"),
-        ],
-        string="Canales de Facturación",
-        default="sectores_metropolitanos",
-        required=True,
     )
 
     canal_distribucion = fields.Selection(
@@ -147,18 +151,34 @@ class cliente(models.Model):
             ("envios_usa", "Envios a USA"),
             ("otros", "Otros"),
         ],
-        string="Canales de Distribución",
-        default="sectores_metropolitanos",
+        string="Canales de Distribución*",
+        required=True,
+    )
+
+    canal_facturacion = fields.Selection(
+        [
+            ("sectores_metropolitanos", "Sectores Metropolitanos"),
+            ("sectores_departamentales", "Sectores Departamentales"),
+            ("tiendas_barrio", "Tiendas de Barrio"),
+            ("tiendas_conveniencia", "Tiendas de Conveniencia"),
+            ("suscripciones", "Suscripciones"),
+            ("suscripciones_cortesia", "Suscripciones de Cortesia"),
+            ("agencias_publicidad", "Agencias de Publicidad"),
+            ("oficinas_zona_12", "Oficinas Zona 12"),
+            ("envios_usa", "Envios a USA"),
+            ("otros", "Otros"),
+        ],
+        string="Canales de Facturación*",
         required=True,
     )
 
     estado = fields.Selection(
         [
-            ("activo", "Activo"),
-            ("inactivo", "Inactivo"),
+            ("Activo", "Activo"),
+            ("Inactivo", "Inactivo"),
         ],
-        string="Estado",
-        default="activo",
+        string="Estado*",
+        default="Activo",
         required=True,
     )
 
@@ -167,10 +187,26 @@ class cliente(models.Model):
             ("si", "Si"),
             ("no", "No"),
         ],
-        string="Facturar Pedidos",
+        string="Facturar Pedidos*",
         default="si",
         required=True,
     )
+
+    @api.depends("canal_distribucion")
+    def _compute_precio_dias(self):
+        for record in self:
+            if record.canal_distribucion == "sectores_metropolitanos":
+                record.precio_unidad = 1.66
+                record.dias_validos_devolucion = 5
+            elif record.canal_distribucion == "sectores_departamentales":
+                record.precio_unidad = 1.71
+                record.dias_validos_devolucion = 3
+            else:
+                record.precio_unidad = 0
+                record.dias_validos_devolucion = 0
+
+    def _inverse_dias_validos_devolucion(self):
+        pass
 
 
 class Country(models.Model):
@@ -238,6 +274,9 @@ class sector(models.Model):
         string="Colonia, Barrio o Aldea*", required=True, default="N/A"
     )
     cliente = fields.Many2one("circulacion.cliente")
+    # id_cliente = fields.Integer(
+    #     string="ID del Cliente", compute="_compute_cliente_id", readonly=True
+    # )
     cliente_info = fields.Char(
         string="Información del Cliente", compute="_compute_cliente_info"
     )
@@ -288,6 +327,24 @@ class sector(models.Model):
     asesor = fields.Many2one("circulacion.asesor")
     no_voceadores = fields.Integer(string="No. de Voceadores")
     anotaciones = fields.Text(string="Anotaciones")
+    estado = fields.Char(
+        compute="_compute_estado_cliente",
+        store=True,
+        string="Estado",
+    )
+
+    # @api.depends("cliente")
+    # def _compute_cliente_id(self):
+    #     for record in self:
+    #         record.id_cliente = record.cliente.id if record.cliente else False
+
+    @api.depends("cliente")
+    def _compute_estado_cliente(self):
+        for record in self:
+            if record.cliente:
+                record.estado = record.cliente.estado
+            else:
+                record.cliente_info = ""
 
     @api.depends("cliente")
     def _compute_cliente_info(self):
